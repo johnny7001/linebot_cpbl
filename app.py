@@ -13,6 +13,8 @@ from linebot.models import *
 from message import *
 from new import *
 from Function import *
+import pymysql
+
 #======這裡是呼叫的檔案內容=====
 
 #======python的函數庫==========
@@ -24,9 +26,45 @@ import time
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
-line_bot_api = LineBotApi('mtoJgAkWcvFCrSH8b6HSsnpY7/pLVL2J+S+H5D9SdF5jZfE9jq8PhHeA26Km6C2gR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGug+DrvvsngP3EoykNriAbcuK2mLLIzRJa3oBTE8WAK2wdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('RK507kJutlBnheV3PZfrkQKfTZEWcaTwI59VBStb7Z5CIoN9yE8NOH0Yra+1wssuR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGuXpYHRzOSNpjjD2tC4uM+EDrVJLl5P2hv6bAhu7oBEwAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('b723f5d1111ac7054eadeed74a284218')
+
+
+db_host='sgpdb.itlab.tw'
+db_user='shane'
+db_password='GKbCoMubLMQ6o'
+db_name='shane'
+db_port=8889
+
+class DB:
+    def connect(self):
+        self.conn = pymysql.connect(
+                             host=db_host,
+                             user=db_user,
+                             password=db_password,
+                             db=db_name,
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor,
+                             port=db_port)
+
+    def query(self, sql):
+        try:
+            self.connect()
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+            self.conn.commit()
+        except pymysql.OperationalError:
+            self.connect()
+            cursor = self.conn.cursor()
+            cursor.execute(sql)
+            self.conn.commit()
+            print('重新連線')
+        return cursor
+    def close(self):
+        self.connect()
+        self.conn.close()
+db = DB()
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -44,6 +82,18 @@ def callback():
         abort(400)
     return 'OK'
 
+
+#訊息傳遞區塊
+##### 基本上程式編輯都在這個function #####
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    if message == 'Passion Sisters':
+        sql = f"select name, ig from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.name = '{message}'"
+        result = db.query(sql).fetall()
+        content = str(result)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.content.text))
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
