@@ -26,7 +26,7 @@ import time
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
-line_bot_api = LineBotApi('RK507kJutlBnheV3PZfrkQKfTZEWcaTwI59VBStb7Z5CIoN9yE8NOH0Yra+1wssuR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGuXpYHRzOSNpjjD2tC4uM+EDrVJLl5P2hv6bAhu7oBEwAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('jqZ2vhGx5Aet7qMr7wevu+2SsD0vctHuIGfllScZoCH9DtGTsu7aY3+UUOjK/xqpR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGszQpgaUrWrD8QmDGfISbfL4Wys9/mmcqT76QadnAEmvgdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('b723f5d1111ac7054eadeed74a284218')
 
@@ -91,9 +91,13 @@ def handle_message(event):
         sql = f"select name, ig from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.name = '{message}'"
         result = db.query(sql).fetall()
         content = str(result)
-    line_bot_api.reply_message(
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content.text))
+    else:
+        line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.content.text))
+        TextSendMessage(text=event.message.text))
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -138,5 +142,5 @@ def welcome(event):
         
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=port)
