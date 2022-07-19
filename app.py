@@ -1,3 +1,4 @@
+from email.mime.message import MIMEMessage
 from flask import Flask, request, abort
 
 from linebot import (
@@ -6,7 +7,8 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
-from linebot.models import *
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
 
 
 #======這裡是呼叫的檔案內容=====
@@ -26,16 +28,17 @@ import time
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
-line_bot_api = LineBotApi('jqZ2vhGx5Aet7qMr7wevu+2SsD0vctHuIGfllScZoCH9DtGTsu7aY3+UUOjK/xqpR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGszQpgaUrWrD8QmDGfISbfL4Wys9/mmcqT76QadnAEmvgdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('+vnSzos71wjZO1nYoeCNfkOkwGnS6KNndLFiE9pxl4WoBGUsGdfYDBKkxESqUHvER+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGtjkm4X+pOqIbantYpWC32es/GUxZECh2oUJAfeZLbkbAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('b723f5d1111ac7054eadeed74a284218')
-
 
 db_host='sgpdb.itlab.tw'
 db_user='shane'
 db_password='GKbCoMubLMQ6o'
 db_name='shane'
 db_port=8889
+
+user_id = 'Ud3abee7fc3caa2649e1d1573985470b1'
 
 class DB:
     def connect(self):
@@ -66,6 +69,8 @@ class DB:
         self.conn.close()
 db = DB()
 
+# line_bot_api.push_message(user_id, TextSendMessage(text='你可以開始了'))
+# line_bot_api.set_webhook_endpoint(<webhook_endpoint_URL>)
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -85,60 +90,75 @@ def callback():
 
 #訊息傳遞區塊
 ##### 基本上程式編輯都在這個function #####
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
+#     if message.text == 'Passion Sisters':
+#         print('執行中')
+#         sql = f"select name, ig from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.name = '{message}'"
+#         result = db.query(sql).fetall()
+#         content = str(result)
+#         line_bot_api.reply_message(
+#             event.reply_token,
+#             TextSendMessage(text=content.text))
+#     else:
+#         print('執行中')
+#         message = 
+#         line_bot_api.reply_message(
+#         event.reply_token,
+#         TextSendMessage(text=event.message.text))
+        
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
+#     if message == 'hello':
+#         message = TextSendMessage(text='hello')
+#         print(message)
+#         line_bot_api.reply_message(event.reply_token,message)
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if message == 'Passion Sisters':
-        sql = f"select name, ig from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.name = '{message}'"
-        result = db.query(sql).fetall()
-        content = str(result)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content.text))
-    else:
-        line_bot_api.reply_message(
+    line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
 # 處理訊息
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    msg = event.message.text
-    if '最新合作廠商' in msg:
-        message = imagemap_message()
-        line_bot_api.reply_message(event.reply_token, message)
-    elif '最新活動訊息' in msg:
-        message = buttons_message()
-        line_bot_api.reply_message(event.reply_token, message)
-    elif '註冊會員' in msg:
-        message = Confirm_Template()
-        line_bot_api.reply_message(event.reply_token, message)
-    elif '旋轉木馬' in msg:
-        message = Carousel_Template()
-        line_bot_api.reply_message(event.reply_token, message)
-    elif '圖片畫廊' in msg:
-        message = test()
-        line_bot_api.reply_message(event.reply_token, message)
-    elif '功能列表' in msg:
-        message = function_list()
-        line_bot_api.reply_message(event.reply_token, message)
-    else:
-        message = TextSendMessage(text=msg)
-        line_bot_api.reply_message(event.reply_token, message)
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
+#     msg = event.message.text
+#     if '最新合作廠商' in msg:
+#         message = imagemap_message()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     elif '最新活動訊息' in msg:
+#         message = buttons_message()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     elif '註冊會員' in msg:
+#         message = Confirm_Template()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     elif '旋轉木馬' in msg:
+#         message = Carousel_Template()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     elif '圖片畫廊' in msg:
+#         message = test()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     elif '功能列表' in msg:
+#         message = function_list()
+#         line_bot_api.reply_message(event.reply_token, message)
+#     else:
+#         message = TextSendMessage(text=msg)
+#         line_bot_api.reply_message(event.reply_token, message)
 
-@handler.add(PostbackEvent)
-def handle_message(event):
-    print(event.postback.data)
+# @handler.add(PostbackEvent)
+# def handle_message(event):
+#     print(event.postback.data)
 
 
-@handler.add(MemberJoinedEvent)
-def welcome(event):
-    uid = event.joined.members[0].user_id
-    gid = event.source.group_id
-    profile = line_bot_api.get_group_member_profile(gid, uid)
-    name = profile.display_name
-    message = TextSendMessage(text=f'{name}歡迎加入')
-    line_bot_api.reply_message(event.reply_token, message)
-        
+# @handler.add(MemberJoinedEvent)
+# def welcome(event):
+#     uid = event.joined.members[0].user_id
+#     gid = event.source.group_id
+#     profile = line_bot_api.get_group_member_profile(gid, uid)
+#     name = profile.display_name
+#     message = TextSendMessage(text=f'{name}歡迎加入')
+#     line_bot_api.reply_message(event.reply_token, message)
         
 import os
 if __name__ == "__main__":
