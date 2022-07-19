@@ -1,4 +1,5 @@
 from email.mime.message import MIMEMessage
+from re import T
 from flask import Flask, request, abort
 
 from linebot import (
@@ -117,15 +118,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text == '兄弟':
-        text = '總冠軍'
+        print('here')
         line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text='總冠軍'))
     else:
-        text = event.message.text
+        print('no')
+        content = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=event.message.text))
+            TextSendMessage(text=content))
 
 # 處理訊息
 # @handler.add(MessageEvent, message=TextMessage)
@@ -170,4 +172,4 @@ def handle_message(event):
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 3000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
