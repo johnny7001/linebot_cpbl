@@ -116,9 +116,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
+    if event.message.text == '兄弟':
+        text = '總冠軍'
+        line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
+    else:
+        text = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
 
 # 處理訊息
 # @handler.add(MessageEvent, message=TextMessage)
