@@ -9,7 +9,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-
+from linebot.models import *
 
 
 #======這裡是呼叫的檔案內容=====
@@ -29,7 +29,7 @@ import time
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
-line_bot_api = LineBotApi('+vnSzos71wjZO1nYoeCNfkOkwGnS6KNndLFiE9pxl4WoBGUsGdfYDBKkxESqUHvER+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGtjkm4X+pOqIbantYpWC32es/GUxZECh2oUJAfeZLbkbAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('XP01O6q7LbgLAZ14HNZO0dMqds20sailPQ8xiSLSuqXFl3IaqSEH37HTfWnoCtshR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGt9UxNO88qT3Bigaei151z67Wgbm8TvsDvRx2BkrigjjAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('b723f5d1111ac7054eadeed74a284218')
 
@@ -117,17 +117,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == '兄弟':
-        print('here')
-        line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='總冠軍'))
-    else:
-        print('no')
-        content = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
+    msg = event.message.text
+    msg = msg.encode('utf-8')
+    if msg == '兄弟':
+        reply = TextSendMessage(text='總冠軍')
+        line_bot_api.reply_message(event.reply_token,reply)
+
+        # line_bot_api.reply_message(event.reply_token,TextSendMessage(text=msg))
 
 # 處理訊息
 # @handler.add(MessageEvent, message=TextMessage)
