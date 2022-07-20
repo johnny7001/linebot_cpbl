@@ -27,8 +27,11 @@ import datetime
 import time
 #======python的函數庫==========
 
-app = Flask(__name__)
-static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+# app = Flask(__name__,
+#             static_folder='static',
+#             static_url_path='/static'
+#             )
+static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'img')
 # Channel Access Token
 line_bot_api = LineBotApi('hV6rJk18a+UB/B4DNMOEzNQaq5izOR7lZ85iZG+m/WVO5cMBB/Dhji6tgZD7aR86R+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGtmqMDgzx3qb+JnzAKLx6cJ3eiuSpX9xFYrHKHNFSX6dAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
@@ -92,31 +95,8 @@ def callback():
 
 #訊息傳遞區塊
 ##### 基本上程式編輯都在這個function #####
-# @handler.add(MessageEvent, message=TextMessage)
-# def handle_message(event):
-#     if message.text == 'Passion Sisters':
-#         print('執行中')
-#         sql = f"select name, ig from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.name = '{message}'"
-#         result = db.query(sql).fetall()
-#         content = str(result)
-#         line_bot_api.reply_message(
-#             event.reply_token,
-#             TextSendMessage(text=content.text))
-#     else:
-#         print('執行中')
-#         message = 
-#         line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=event.message.text))
-        
-# @handler.add(MessageEvent, message=TextMessage)
-# def handle_message(event):
-#     if message == 'hello':
-#         message = TextSendMessage(text='hello')
-#         print(message)
-#         line_bot_api.reply_message(event.reply_token,message)
 
-# 回覆相同訊息
+# 回覆訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = text=event.message.text
@@ -127,6 +107,14 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(str(content)))
+    # 回傳圖片
+    elif re.match('貴貴', message):
+        image_message = ImageSendMessage(
+            original_content_url = 'static/img/sammy01.jpg'
+        )
+        line_bot_api.reply_message(
+            event.reply_token,
+            image_message)
     else:
         line_bot_api.reply_message(
             event.reply_token,
