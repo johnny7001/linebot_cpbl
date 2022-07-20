@@ -110,7 +110,7 @@ def handle_message(event):
     # 回傳圖片
     elif re.match('貴貴', message):
         image_message = ImageSendMessage(
-            original_content_url = 'static/img/sammy01.jpg'
+            original_content_url = 'https://instagram.ftpe7-1.fna.fbcdn.net/v/t51.2885-15/292996591_409357517812486_5900904124539857918_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe7-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=gUROhAV3PUQAX_MdgKF&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=Mjg3OTcxMTE2NDYwODk0MTcxNA%3D%3D.2-ccb7-5&oh=00_AT9itWV9Bg17p__aVMSnMOckWYjD8EM6TB9DigoEAepFpQ&oe=62DECB85&_nc_sid=30a2ef'
         )
         line_bot_api.reply_message(
             event.reply_token,
