@@ -112,10 +112,9 @@ def handle_message(event):
             ig = m['ig_url']
             c = name + ': ' + ig
             content.append(c)
-            content.append('\n')
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(str(content)))
+            TextSendMessage(str('\n'.join(content))))
     # 回傳圖片
     elif re.match('貴貴', message):
         image_message = ImageSendMessage(

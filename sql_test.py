@@ -43,14 +43,16 @@ for m in result:
     name = m['name']
     ig = m['ig_url']
     c = name + ': ' + ig
-    content.append(c+'\n')
+    content.append(c)
     # print(result[f'{m}'])
-with open('ps.txt', 'w+', encoding='utf-8') as file:
-    file.writelines(content)
-    
-with open('ps.txt', 'r', encoding='utf-8') as ps:
-    result = ps.readlines()
-    for i in result:
-        print(i)
+print(str('\n'.join(content)))
+# with open('ps.txt', 'w+', encoding='utf-8') as file:
+#     file.writelines(content)
+
+  
+# with open('ps.txt', 'r', encoding='utf-8') as ps:
+#     result = ps.readlines()
+#     for i in result:
+#         print(i)
 
 
