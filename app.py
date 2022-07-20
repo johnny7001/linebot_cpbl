@@ -123,9 +123,10 @@ def handle_message(event):
     if re.match('兄弟', message):
         sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id;"
         result = db.query(sql).fetchall() # result = list
+        content = result[0]
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(str(result)))
+            TextSendMessage(str(content)))
     else:
         line_bot_api.reply_message(
             event.reply_token,
