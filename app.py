@@ -121,7 +121,7 @@ def callback():
 def handle_message(event):
     message = text=event.message.text
     if re.match('兄弟', message):
-        sql = "select name, ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id;"
+        sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id;"
         result = db.query(sql).fetchall()
         line_bot_api.reply_message(
             event.reply_token,
