@@ -37,5 +37,5 @@ class DB:
 db = DB()
 
 sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id;"
-result = db.query(sql).fetchall()
-print(result)
+result = db.query(sql).fetchall() # result = list
+print(result[0])
