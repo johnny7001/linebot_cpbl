@@ -117,13 +117,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # msg = event.message.text
+    msg = event.message.text
     # msg = msg.encode('utf-8')
     # if msg == '兄弟':
     #     reply = TextSendMessage(text='總冠軍')
     #     line_bot_api.reply_message(event.reply_token,reply)
     # else:
-    line_bot_api.reply_message(event.reply_token,text = event.message.text)
+    line_bot_api.reply_message(event.reply_token,msg)
 
         # line_bot_api.reply_message(event.reply_token,TextSendMessage(text=msg))
 
