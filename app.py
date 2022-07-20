@@ -1,6 +1,7 @@
 from email.mime.message import MIMEMessage
 from re import T
 from flask import Flask, request, abort
+import re
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -118,10 +119,15 @@ def callback():
 # 回覆相同訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
-
+    message = text=event.message.text
+    if re.match('兄弟', message):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage('總冠軍'))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(message))
         # line_bot_api.reply_message(event.reply_token,TextSendMessage(text=msg))
 
 # 處理訊息
