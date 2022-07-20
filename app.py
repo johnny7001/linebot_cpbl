@@ -114,7 +114,7 @@ def handle_message(event):
             content.append(c+'\n')
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(content))
+            TextSendMessage(str(content)))
     # 回傳圖片
     elif re.match('貴貴', message):
         image_message = ImageSendMessage(
