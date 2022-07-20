@@ -36,8 +36,21 @@ class DB:
         self.conn.close()
 db = DB()
 
-sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id;"
-result = db.query(sql).fetchall() # result = list
-print(result[0])
+content = []
+sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id = 1;"
+result = db.query(sql).fetchall() # result = list, result[0] = dict
+for m in result:
+    name = m['name']
+    ig = m['ig_url']
+    c = name + ': ' + ig
+    content.append(c+'\n')
+    # print(result[f'{m}'])
+with open('ps.txt', 'w+', encoding='utf-8') as file:
+    file.writelines(content)
+    
+with open('ps.txt', 'r', encoding='utf-8') as ps:
+    result = ps.readlines()
+    for i in result:
+        print(i)
 
 
