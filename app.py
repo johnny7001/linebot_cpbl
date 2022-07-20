@@ -111,7 +111,8 @@ def handle_message(event):
             name = m['name']
             ig = m['ig_url']
             c = name + ': ' + ig
-            content.append(c+'\n')
+            content.append(c)
+            content.append('\n')
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(str(content)))
