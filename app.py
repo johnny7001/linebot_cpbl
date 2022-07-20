@@ -29,7 +29,7 @@ import time
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 # Channel Access Token
-line_bot_api = LineBotApi('XP01O6q7LbgLAZ14HNZO0dMqds20sailPQ8xiSLSuqXFl3IaqSEH37HTfWnoCtshR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGt9UxNO88qT3Bigaei151z67Wgbm8TvsDvRx2BkrigjjAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('DPkPW/lOL3N0ax6yMEEty8zjljfI0H/6SCEcn8TSHw6ZIgiS+0X9Mo3nbNL9Y3ckR+7iCeuFWlnsucJkIRnmOS/XaQQB/oyqpuni0maKPGt8lVWefYTJOSkzR17gvAA5Lv2oNR8mHgxDuAkylh9WEAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('b723f5d1111ac7054eadeed74a284218')
 
@@ -122,6 +122,8 @@ def handle_message(event):
     if msg == '兄弟':
         reply = TextSendMessage(text='總冠軍')
         line_bot_api.reply_message(event.reply_token,reply)
+    else:
+        line_bot_api.reply_message(event.reply_token,msg)
 
         # line_bot_api.reply_message(event.reply_token,TextSendMessage(text=msg))
 
