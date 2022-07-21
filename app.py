@@ -115,6 +115,70 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(str('\n'.join(content))))
+        
+    elif re.match('富邦', message):
+        # sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id=1;"
+        # result = db.query(sql).fetchall() # result = list
+        # content = result[0]
+        content = []
+        sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id = 5;"
+        result = db.query(sql).fetchall() # result = list, result[0] = dict
+        for m in result:
+            name = m['name']
+            ig = m['ig_url']
+            c = name + ': ' + ig
+            content.append(c)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(str('\n'.join(content))))
+        
+    elif re.match('統一', message):
+            # sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id=1;"
+        # result = db.query(sql).fetchall() # result = list
+        # content = result[0]
+        content = []
+        sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id = 2;"
+        result = db.query(sql).fetchall() # result = list, result[0] = dict
+        for m in result:
+            name = m['name']
+            ig = m['ig_url']
+            c = name + ': ' + ig
+            content.append(c)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(str('\n'.join(content))))
+        
+    elif re.match('樂天', message):
+            # sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id=1;"
+        # result = db.query(sql).fetchall() # result = list
+        # content = result[0]
+        content = []
+        sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id = 3;"
+        result = db.query(sql).fetchall() # result = list, result[0] = dict
+        for m in result:
+            name = m['name']
+            ig = m['ig_url']
+            c = name + ': ' + ig
+            content.append(c)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(str('\n'.join(content))))
+        
+    elif re.match('味全', message):
+            # sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id=1;"
+        # result = db.query(sql).fetchall() # result = list
+        # content = result[0]
+        content = []
+        sql = "select m.name, m.ig_url from cpbl_member m left join cpbl_team t on m.team_id = t.id where m.team_id = 4;"
+        result = db.query(sql).fetchall() # result = list, result[0] = dict
+        for m in result:
+            name = m['name']
+            ig = m['ig_url']
+            c = name + ': ' + ig
+            content.append(c)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(str('\n'.join(content))))
     # 回傳圖片
     elif re.match('貴貴', message):
         image_message = ImageSendMessage(
